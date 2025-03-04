@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Division Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .game-container {
+            border: 2px dotted black;
+            display: inline-block;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        input {
+            padding: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Math Division Game</h1>
+    <div class="game-container">
+        <p id="question">Find the value of 5 ÷ 7. Give your answer correct to 1 decimal place.</p>
+        <input type="text" id="answer" placeholder="Enter answer" autofocus>
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="result"></p>
+        <p>Score: <span id="score">0</span></p>
+    </div>
+
+    <script>
+        let score = 0;
+        let num1 = 5;
+        let num2 = 7;
+        let correctAnswer = (num1 / num2).toFixed(1);
+
+        function checkAnswer() {
+            let userAnswer = document.getElementById("answer").value.trim();
+            let resultText = document.getElementById("result");
+
+            if (userAnswer === correctAnswer) {
+                resultText.textContent = "Correct!";
+                score++;
+                document.getElementById("score").textContent = score;
+                generateQuestion();
+            } else {
+                resultText.textContent = "Wrong! Try again.";
+            }
+            document.getElementById("answer").value = "";
+        }
+
+        function generateQuestion() {
+            do {
+                num1 = Math.floor(Math.random() * 20) + 1;
+                num2 = Math.floor(Math.random() * 9) + 1; // Ensuring divisor is at most 9
+            } while (num1 === num2); // Preventing same number division
+            
+            correctAnswer = (num1 / num2).toFixed(1);
+            document.getElementById("question").textContent = `Find the value of ${num1} ÷ ${num2}. Give your answer correct to 1 decimal place.`;
+        }
+
+        document.getElementById("answer").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkAnswer();
+            }
+        });
+    </script>
+</body>
+</html>
